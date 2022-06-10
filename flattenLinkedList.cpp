@@ -17,34 +17,26 @@ public:
 };
 
 *****************************************************************/
-Node* mergeTwoLists(Node* a, Node* b) {
-    Node *temp = new Node(0);
-    Node *res = temp; 
-    while(a != NULL && b != NULL) {
-        if(a->data < b->data) {
-            temp->child = a; 
-            temp = temp->child; 
-            a = a->child; 
-        }
-        else {
-            temp->child = b;
-            temp = temp->child; 
-            b = b->child; 
-        }
-    }
-    if(a) temp->child = a; 
-    else temp->child = b; 
+Node* merge(Node* a , Node* b){
+    if(a == NULL) return b;
+    if(b == NULL) return a;
     
-    return res -> child;    
+    Node* result;
+    if(a->data < b->data){
+        result = a;
+        result->child = merge(a->child , b);
+    }
+    else{
+        result = b;
+        result->child = merge(a,b->child);
+    }
+    result->next = NULL;
+    return result;
 }
 Node* flattenLinkedList(Node* head) 
 {
 	// Write your code here
-    if (head == NULL || head->next == NULL) 
-            return head; 
-
-    head->next = flattenLinkedList(head->next); 
-    head = mergeTwoLists(head, head->next); 
-
-    return head; 
+    if(head == NULL || head->next == NULL)
+        return head;
+    return merge(head , flattenLinkedList(head->next));
 }
