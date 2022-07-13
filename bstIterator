@@ -1,0 +1,60 @@
+/************************************************************
+
+    Following is the TreeNode class structure
+
+    template <typename T>
+    class TreeNode {
+       public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+#include<bits/stdc++.h>
+class BSTiterator
+{
+    public:
+    stack<TreeNode<int>*> st;
+    void pushall(TreeNode<int>* node){
+        for( ; node != NULL; node = node->left)
+            st.push(node);
+    }
+    BSTiterator(TreeNode<int> *root)
+    {
+        // write your code here
+        pushall(root);
+    }
+
+    int next()
+    {
+        // write your code here
+        TreeNode<int>* tmp = st.top();
+        st.pop();
+        pushall(tmp->right);
+        return tmp->data;
+    }
+
+    bool hasNext()
+    {
+        // write your code here
+        return !st.empty();
+    }
+};
+
+
+/*
+    Your BSTIterator object will be instantiated and called as such:
+    BSTIterator iterator(root);
+    while(iterator.hasNext())
+    {
+       print(iterator.next());
+    }
+*/
